@@ -1,8 +1,7 @@
 ## Site backup to S3 bucket
-
   
 
-I'm using Scality's [cloudserver](I%27m%20using%20Scality%27s%20cloudserver%20%3Chttp://https://github.com/scality/cloudserver%3E%3E) as as replacement to AWS S3 service for development, so I don't need to worry about bucket's security from the ground up and add ACL's as needed.
+I'm using Scality's [cloudserver](https://github.com/scality/cloudserver) as as replacement to AWS S3 service for development, so I don't need to worry about bucket's security from the ground up and add ACL's as needed.
 
 Scality provides a have a very extensive [documentation](https://s3-server.readthedocs.io/en/latest/) and also  a ready to use **docker** container that speeds up the environment deployment
 
@@ -111,3 +110,23 @@ s3_resource = session.resource(
 s3_resource.Object(bucketName, keyName).upload_file(localFilename,ExtraArgs={'ContentType': 'video/mp4'},
 		Config=config,
 		Callback=ProgressPercentage(localFilename))</code></pre>
+
+
+
+- **Using the aws-cli to access the buckets**
+
+This service doesn't implement the ListObjectV2 method, so it's necessary to install this specific AWS CLI version:
+<pre><code>pip install awscli==1.16.14</code></pre>
+
+Next. create the aws configuration file and add the user key and secret:
+<pre><code>mkdir ~/.aws
+echo "[default]" | tee ~/.aws/config
+echo "[default]
+aws_access_key_id = accessKey1
+aws_secret_access_key = verySecretKey1" | tee  ~/.aws/credentials</code></pre>
+
+After that the aws s3 commands can be issued as usual:
+
+<pre><code>$ aws s3 ls s3://mytestbucket --endpoint=http://localhost:8000
+
+2021-09-21 18:37:48  158008374 BigBuckBunny.mp4</code></pre>
