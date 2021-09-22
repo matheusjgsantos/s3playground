@@ -1,5 +1,6 @@
-## Site backup to S3 bucket
-  
+## S3 Object Storage playground
+
+This repository provides instructions and examples for using Amazon's Simple Storage Service to store and manage data through different methods.
 
 I'm using Scality's [cloudserver](https://github.com/scality/cloudserver) as as replacement to AWS S3 service for development, so I don't need to worry about bucket's security from the ground up and add ACL's as needed.
 
